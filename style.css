@@ -11,10 +11,7 @@
   --font-body: 'Inter', sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
@@ -24,17 +21,20 @@ body {
   font-size: 16px;
   line-height: 1.75;
   letter-spacing: 0.01em;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   position: relative;
   min-height: 100%;
-  overscroll-behavior-y: none;
 }
 
-/* ============ ФОН: ЗВЁЗДНАЯ ПЫЛЬ ============ */
+/* ============ ФОН: НЕРАВНОМЕРНАЯ ЗВЁЗДНАЯ ПЫЛЬ ============ */
+
+/* ГУСТАЯ зона — правый верх */
 .starfield {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 0;
   background-image:
+    /* правый верх — плотно */
     radial-gradient(1px 1px at 78% 8%,  rgba(232,228,220,0.75), transparent 100%),
     radial-gradient(1px 1px at 82% 14%, rgba(232,228,220,0.6),  transparent 100%),
     radial-gradient(2px 2px at 88% 10%, rgba(232,228,220,0.85), transparent 100%),
@@ -45,14 +45,20 @@ body {
     radial-gradient(1px 1px at 70% 4%,  rgba(232,228,220,0.5),  transparent 100%),
     radial-gradient(1px 1px at 94% 32%, rgba(232,228,220,0.4),  transparent 100%),
     radial-gradient(1px 1px at 80% 36%, rgba(232,228,220,0.45), transparent 100%),
+
+    /* средняя зона — левый низ */
     radial-gradient(1px 1px at 8%  72%, rgba(232,228,220,0.5),  transparent 100%),
     radial-gradient(1px 1px at 14% 82%, rgba(232,228,220,0.4),  transparent 100%),
     radial-gradient(1px 1px at 22% 88%, rgba(232,228,220,0.55), transparent 100%),
     radial-gradient(1px 1px at 6%  60%, rgba(232,228,220,0.35), transparent 100%),
     radial-gradient(1px 1px at 18% 66%, rgba(232,228,220,0.45), transparent 100%),
     radial-gradient(1px 1px at 28% 76%, rgba(232,228,220,0.4),  transparent 100%),
+
+    /* центр — редко */
     radial-gradient(1px 1px at 48% 42%, rgba(232,228,220,0.3),  transparent 100%),
     radial-gradient(1px 1px at 54% 56%, rgba(232,228,220,0.25), transparent 100%),
+
+    /* разрозненные */
     radial-gradient(1px 1px at 42% 18%, rgba(232,228,220,0.4),  transparent 100%),
     radial-gradient(1px 1px at 62% 48%, rgba(232,228,220,0.35), transparent 100%),
     radial-gradient(1px 1px at 36% 92%, rgba(232,228,220,0.4),  transparent 100%),
@@ -62,6 +68,7 @@ body {
   animation: starDrift 80s ease-in-out infinite alternate;
 }
 
+/* Второй слой — мелкая пыль по всей площади */
 .starfield::before {
   content: '';
   position: absolute; inset: 0;
@@ -91,6 +98,7 @@ body {
   to   { transform: translate(-10px, -8px); }
 }
 
+/* Туманность — два пятна */
 .nebula {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 1;
@@ -105,6 +113,7 @@ body {
       transparent 75%);
 }
 
+/* Зерно */
 .grain {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 2;
@@ -112,6 +121,7 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Виньетка */
 .vignette {
   position: fixed; inset: 0;
   pointer-events: none; z-index: 3;
@@ -129,6 +139,7 @@ body {
 
 .screen--hero {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,10 +306,21 @@ body {
 
 .sky-link { color: var(--text); cursor: pointer; }
 
-.sky-glow { transition: opacity 0.7s ease; }
-.sky-ring { transition: stroke 0.7s ease; }
-.sky-ring-inner { transition: stroke 0.7s ease; }
-.sky-core { transition: fill 0.7s ease; }
+.sky-glow {
+  transition: opacity 0.7s ease;
+}
+
+.sky-ring {
+  transition: stroke 0.7s ease;
+}
+
+.sky-ring-inner {
+  transition: stroke 0.7s ease;
+}
+
+.sky-core {
+  transition: fill 0.7s ease;
+}
 
 .sky-ray {
   stroke: currentColor;
@@ -333,9 +355,16 @@ body {
   opacity: 0.9;
 }
 
-.legal__seal svg { width: 100%; height: 100%; display: block; }
+.legal__seal svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
-.legal__inner { position: relative; z-index: 1; }
+.legal__inner {
+  position: relative;
+  z-index: 1;
+}
 
 .legal__intro {
   color: var(--text);
@@ -383,7 +412,9 @@ body {
   opacity: 1;
 }
 
-.legal__item:hover .legal__mark { opacity: 1; }
+.legal__item:hover .legal__mark {
+  opacity: 1;
+}
 
 .legal__list li {
   padding: 18px 0;
@@ -420,6 +451,7 @@ body {
   color: #e8e4dc;
 }
 
+
 .legal__note {
   color: var(--text-dim);
   font-size: 0.82rem;
@@ -451,18 +483,16 @@ body {
 
 .footer__dot { opacity: 0.4; }
 
-/* ============ АНИМАЦИЯ ПОЯВЛЕНИЯ (CSS, без JS) ============ */
+/* ============ АНИМАЦИЯ ============ */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: translateY(24px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
 }
 
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ============ МОБИЛЬНАЯ ВЕРСИЯ ============ */
@@ -482,7 +512,9 @@ body {
 
   .hero__title { letter-spacing: 0.1em; }
 
-  .about__body { padding-left: 20px; }
+  .about__body {
+    padding-left: 20px;
+  }
 
   .dropcap {
     font-size: 2.6rem;
@@ -510,7 +542,7 @@ body {
   .reveal {
     opacity: 1;
     transform: none;
-    animation: none;
+    transition: none;
   }
 
   .hero__arrow,
