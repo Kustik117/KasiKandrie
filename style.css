@@ -11,7 +11,10 @@
   --font-body: 'Inter', sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
 body {
   background: var(--bg);
@@ -21,17 +24,17 @@ body {
   font-size: 16px;
   line-height: 1.75;
   letter-spacing: 0.01em;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   position: relative;
   min-height: 100%;
+  overscroll-behavior-y: none;
 }
 
 /* ============ ФОН: НЕРАВНОМЕРНАЯ ЗВЁЗДНАЯ ПЫЛЬ ============ */
 
 /* ГУСТАЯ зона — правый верх */
 .starfield {
-  position: fixed; inset: 0;
+  position: absolute; inset: 0;
   pointer-events: none; z-index: 0;
   background-image:
     /* правый верх — плотно */
@@ -100,7 +103,7 @@ body {
 
 /* Туманность — два пятна */
 .nebula {
-  position: fixed; inset: 0;
+  position: absolute; inset: 0;
   pointer-events: none; z-index: 1;
   background:
     radial-gradient(ellipse 700px 500px at 80% 18%,
@@ -115,7 +118,7 @@ body {
 
 /* Зерно */
 .grain {
-  position: fixed; inset: 0;
+  position: absolute; inset: 0;
   pointer-events: none; z-index: 2;
   opacity: 0.055;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -123,7 +126,7 @@ body {
 
 /* Виньетка */
 .vignette {
-  position: fixed; inset: 0;
+  position: absolute; inset: 0;
   pointer-events: none; z-index: 3;
   background: radial-gradient(ellipse at center,
     transparent 35%,
@@ -139,7 +142,6 @@ body {
 
 .screen--hero {
   min-height: 100vh;
-  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -450,7 +452,6 @@ body {
 .legal__link:hover {
   color: #e8e4dc;
 }
-
 
 .legal__note {
   color: var(--text-dim);
