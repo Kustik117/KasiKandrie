@@ -1,0 +1,555 @@
+/* ============ БАЗА ============ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #08080a;
+  --text: #e8e4dc;
+  --text-dim: #8a8579;
+  --accent: #c9a961;
+  --line: #1a1a1e;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  min-height: 100%;
+}
+
+/* ============ ФОН: НЕРАВНОМЕРНАЯ ЗВЁЗДНАЯ ПЫЛЬ ============ */
+
+/* ГУСТАЯ зона — правый верх */
+.starfield {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  background-image:
+    /* правый верх — плотно */
+    radial-gradient(1px 1px at 78% 8%,  rgba(232,228,220,0.75), transparent 100%),
+    radial-gradient(1px 1px at 82% 14%, rgba(232,228,220,0.6),  transparent 100%),
+    radial-gradient(2px 2px at 88% 10%, rgba(232,228,220,0.85), transparent 100%),
+    radial-gradient(1px 1px at 92% 18%, rgba(232,228,220,0.55), transparent 100%),
+    radial-gradient(1px 1px at 75% 22%, rgba(232,228,220,0.65), transparent 100%),
+    radial-gradient(1px 1px at 86% 28%, rgba(232,228,220,0.5),  transparent 100%),
+    radial-gradient(1px 1px at 96% 6%,  rgba(232,228,220,0.7),  transparent 100%),
+    radial-gradient(1px 1px at 70% 4%,  rgba(232,228,220,0.5),  transparent 100%),
+    radial-gradient(1px 1px at 94% 32%, rgba(232,228,220,0.4),  transparent 100%),
+    radial-gradient(1px 1px at 80% 36%, rgba(232,228,220,0.45), transparent 100%),
+
+    /* средняя зона — левый низ */
+    radial-gradient(1px 1px at 8%  72%, rgba(232,228,220,0.5),  transparent 100%),
+    radial-gradient(1px 1px at 14% 82%, rgba(232,228,220,0.4),  transparent 100%),
+    radial-gradient(1px 1px at 22% 88%, rgba(232,228,220,0.55), transparent 100%),
+    radial-gradient(1px 1px at 6%  60%, rgba(232,228,220,0.35), transparent 100%),
+    radial-gradient(1px 1px at 18% 66%, rgba(232,228,220,0.45), transparent 100%),
+    radial-gradient(1px 1px at 28% 76%, rgba(232,228,220,0.4),  transparent 100%),
+
+    /* центр — редко */
+    radial-gradient(1px 1px at 48% 42%, rgba(232,228,220,0.3),  transparent 100%),
+    radial-gradient(1px 1px at 54% 56%, rgba(232,228,220,0.25), transparent 100%),
+
+    /* разрозненные */
+    radial-gradient(1px 1px at 42% 18%, rgba(232,228,220,0.4),  transparent 100%),
+    radial-gradient(1px 1px at 62% 48%, rgba(232,228,220,0.35), transparent 100%),
+    radial-gradient(1px 1px at 36% 92%, rgba(232,228,220,0.4),  transparent 100%),
+    radial-gradient(1px 1px at 66% 88%, rgba(232,228,220,0.35), transparent 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  animation: starDrift 80s ease-in-out infinite alternate;
+}
+
+/* Второй слой — мелкая пыль по всей площади */
+.starfield::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(0.8px 0.8px at 4%  12%, rgba(232,228,220,0.35), transparent),
+    radial-gradient(0.8px 0.8px at 16% 28%, rgba(232,228,220,0.3),  transparent),
+    radial-gradient(0.8px 0.8px at 32% 8%,  rgba(232,228,220,0.4),  transparent),
+    radial-gradient(0.8px 0.8px at 44% 34%, rgba(232,228,220,0.28), transparent),
+    radial-gradient(0.8px 0.8px at 56% 22%, rgba(232,228,220,0.35), transparent),
+    radial-gradient(0.8px 0.8px at 68% 44%, rgba(232,228,220,0.3),  transparent),
+    radial-gradient(0.8px 0.8px at 72% 62%, rgba(232,228,220,0.4),  transparent),
+    radial-gradient(0.8px 0.8px at 84% 76%, rgba(232,228,220,0.3),  transparent),
+    radial-gradient(0.8px 0.8px at 96% 82%, rgba(232,228,220,0.35), transparent),
+    radial-gradient(0.8px 0.8px at 12% 48%, rgba(232,228,220,0.3),  transparent),
+    radial-gradient(0.8px 0.8px at 26% 58%, rgba(232,228,220,0.35), transparent),
+    radial-gradient(0.8px 0.8px at 38% 68%, rgba(232,228,220,0.28), transparent),
+    radial-gradient(0.8px 0.8px at 52% 74%, rgba(232,228,220,0.35), transparent),
+    radial-gradient(0.8px 0.8px at 64% 86%, rgba(232,228,220,0.3),  transparent),
+    radial-gradient(0.8px 0.8px at 78% 52%, rgba(232,228,220,0.32), transparent),
+    radial-gradient(0.8px 0.8px at 88% 38%, rgba(232,228,220,0.28), transparent);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+@keyframes starDrift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(-10px, -8px); }
+}
+
+/* Туманность — два пятна */
+.nebula {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 1;
+  background:
+    radial-gradient(ellipse 700px 500px at 80% 18%,
+      rgba(140, 100, 55, 0.055) 0%,
+      rgba(140, 100, 55, 0.02) 45%,
+      transparent 75%),
+    radial-gradient(ellipse 600px 400px at 10% 82%,
+      rgba(65, 85, 130, 0.045) 0%,
+      rgba(65, 85, 130, 0.015) 45%,
+      transparent 75%);
+}
+
+/* Зерно */
+.grain {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 2;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Виньетка */
+.vignette {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 3;
+  background: radial-gradient(ellipse at center,
+    transparent 35%,
+    rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* ============ ЭКРАНЫ ============ */
+.screen {
+  position: relative; z-index: 4;
+  width: 100%;
+  padding: 110px 24px;
+}
+
+.screen--hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  overflow: hidden;
+}
+
+.screen--about,
+.screen--nav,
+.screen--legal {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.screen--legal { position: relative; }
+
+/* ============ ГЛАВНЫЙ ЭКРАН ============ */
+.hero__moon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(140vh, 140vw);
+  height: min(140vh, 140vw);
+  max-width: 900px;
+  max-height: 900px;
+  pointer-events: none;
+  z-index: 0;
+  animation: moonDrift 90s linear infinite;
+}
+
+.hero__moon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@keyframes moonDrift {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.4rem, 9vw, 6rem);
+  letter-spacing: 0.14em;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 36px;
+  text-shadow: 0 0 40px rgba(8, 8, 10, 0.9);
+}
+
+.hero__tagline {
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  color: var(--text-dim);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  max-width: 520px;
+  margin: 0 auto 72px;
+  line-height: 1.9;
+  text-shadow: 0 0 20px rgba(8, 8, 10, 1);
+}
+
+.hero__scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.hero__arrow {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, var(--text-dim), transparent);
+  animation: slideDown 2.4s ease-in-out infinite;
+}
+
+@keyframes slideDown {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50%      { transform: translateY(8px); opacity: 1; }
+}
+
+/* ============ ЗАГОЛОВКИ ============ */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 56px;
+  position: relative;
+  padding-bottom: 24px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 56px; height: 1px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
+/* ============ ЧТО ЗДЕСЬ ============ */
+.about__body {
+  position: relative;
+  padding-left: 28px;
+  border-left: 1px solid var(--line);
+}
+
+.about__body p {
+  color: var(--text);
+  font-size: 1.02rem;
+  margin-bottom: 28px;
+  max-width: 620px;
+}
+
+.about__body p:last-child { margin-bottom: 0; }
+
+.about__final {
+  color: var(--text-dim) !important;
+  font-style: italic;
+}
+
+.dropcap {
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  font-weight: 400;
+  line-height: 0.85;
+  color: var(--accent);
+  float: left;
+  margin: 6px 12px 0 0;
+  letter-spacing: 0;
+}
+
+/* ============ ДВЕРЬ (карта) ============ */
+.nav__inner { text-align: center; }
+.nav__inner .section-title { text-align: left; }
+
+.sky {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  aspect-ratio: 600 / 420;
+  color: var(--text-dim);
+}
+
+.sky svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.sky-link { color: var(--text); cursor: pointer; }
+
+.sky-glow {
+  transition: opacity 0.7s ease;
+}
+
+.sky-ring {
+  transition: stroke 0.7s ease;
+}
+
+.sky-ring-inner {
+  transition: stroke 0.7s ease;
+}
+
+.sky-core {
+  transition: fill 0.7s ease;
+}
+
+.sky-ray {
+  stroke: currentColor;
+  stroke-width: 0.5;
+  opacity: 0.35;
+  transition: opacity 0.7s ease, stroke 0.7s ease;
+}
+
+.sky-label,
+.sky-sub {
+  transition: fill 0.7s ease, opacity 0.7s ease;
+  font-family: var(--font-body);
+}
+
+.sky-link:hover .sky-glow { opacity: 0.10; }
+.sky-link:hover .sky-ring { stroke: var(--accent); }
+.sky-link:hover .sky-ring-inner { stroke: var(--accent); }
+.sky-link:hover .sky-core { fill: var(--accent); }
+.sky-link:hover .sky-ray { opacity: 1; stroke: var(--accent); }
+.sky-link:hover .sky-label { fill: var(--accent); }
+.sky-link:hover .sky-sub { opacity: 0.9; fill: var(--accent); }
+
+/* ============ ДЛЯ РЕКЛАМОДАТЕЛЕЙ ============ */
+.legal__seal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 120px;
+  height: 120px;
+  color: var(--accent);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.legal__seal svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.legal__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.legal__intro {
+  color: var(--text);
+  margin-bottom: 48px;
+  max-width: 620px;
+}
+
+.legal__list {
+  list-style: none;
+  max-width: 620px;
+  margin-bottom: 48px;
+}
+
+.legal__item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  color: var(--text);
+  text-decoration: none;
+  width: 100%;
+  transition: color 0.6s ease, letter-spacing 0.6s ease;
+  position: relative;
+}
+
+.legal__item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.3;
+  transition: width 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.7s ease;
+}
+
+.legal__item:hover {
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+.legal__item:hover::after {
+  width: 100%;
+  opacity: 1;
+}
+
+.legal__item:hover .legal__mark {
+  opacity: 1;
+}
+
+.legal__list li {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.legal__list li:last-child { border-bottom: none; }
+
+.legal__mark {
+  color: var(--accent);
+  font-size: 0.7rem;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+.legal__contact-text {
+  color: var(--text-dim);
+  font-size: 0.98rem;
+  margin-bottom: 20px;
+  max-width: 620px;
+}
+
+.legal__link {
+  color: #c9a961;
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 48px;
+  display: inline-block;
+  transition: color 1.2s ease;
+}
+
+.legal__link:hover {
+  color: #e8e4dc;
+}
+
+
+.legal__note {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  max-width: 620px;
+}
+
+/* ============ ФУТЕР ============ */
+.footer {
+  position: relative; z-index: 4;
+  padding: 48px 24px;
+  border-top: 1px solid var(--line);
+}
+
+.footer__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+
+.footer__dot { opacity: 0.4; }
+
+/* ============ АНИМАЦИЯ ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ МОБИЛЬНАЯ ВЕРСИЯ ============ */
+@media (max-width: 640px) {
+  .screen { padding: 80px 20px; }
+  .screen--hero { padding: 0 20px; }
+
+  .hero__moon {
+    width: 160vw;
+    height: 160vw;
+  }
+
+  .section-title {
+    margin-bottom: 40px;
+    font-size: 1.6rem;
+  }
+
+  .hero__title { letter-spacing: 0.1em; }
+
+  .about__body {
+    padding-left: 20px;
+  }
+
+  .dropcap {
+    font-size: 2.6rem;
+    margin: 4px 10px 0 0;
+  }
+
+  .sky { aspect-ratio: 1 / 1; }
+
+  .legal__seal {
+    width: 80px;
+    height: 80px;
+    top: 10px;
+    right: 10px;
+    opacity: 0.7;
+  }
+
+  .legal__list li {
+    font-size: 0.95rem;
+    padding: 14px 0;
+  }
+}
+
+/* ============ ДОСТУПНОСТЬ ============ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero__arrow,
+  .starfield,
+  .hero__moon {
+    animation: none;
+  }
+
+  html { scroll-behavior: auto; }
+}
