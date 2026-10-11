@@ -485,9 +485,8 @@ body {
 
 /* ============ АНИМАЦИЯ ============ */
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 1.2s ease, transform 1.2s ease;
+  opacity: 1;
+  transform: none;
 }
 
 .reveal.is-visible {
