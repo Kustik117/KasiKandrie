@@ -523,6 +523,15 @@ body {
 
   .sky { aspect-ratio: 1 / 1; }
 
+
+  .legal__formats {
+  color: var(--text-dim);
+  font-size: 1rem;
+  margin-bottom: 20px;
+  max-width: 620px;
+}
+
+  
   .legal__seal {
     width: 80px;
     height: 80px;
